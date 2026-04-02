@@ -41,9 +41,9 @@ public static void main(String[] args) throws Exception {
         }
 
         if (game.isWordGuessed()) {
-            System.out.println("Вы выиграли! Загаданное слово было: " + game.getTargetWord());
+            System.out.println("Вы выиграли! Загаданное слово было: " + game.getAnswer());
         } else {
-            System.out.println("Попытки закончились! Загаданное слово было: " + game.getTargetWord());
+            System.out.println("Попытки закончились! Загаданное слово было: " + game.getAnswer());
         }
 
         log.close();

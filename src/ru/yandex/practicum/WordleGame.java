@@ -18,36 +18,36 @@ import java.util.List;
  */
 public class WordleGame {
 
-    private String targetWord; // Загаданное слово
-    private int remainingAttempts; // Оставшиеся попытки
+    private String answer; // Загаданное слово
+    private int steps; // Оставшиеся попытки
     private List<String> previousGuesses; // Предыдущие догадки игрока
     private WordleDictionary dictionary; // Словарь слов для игры
 
     // Конструктор
     public WordleGame(WordleDictionary dictionary) {
         this.dictionary = dictionary;
-        this.targetWord = dictionary.getRandomWord();
-        this.remainingAttempts = 6;
+        this.answer = dictionary.getRandomWord();
+        this.steps = 6;
         this.previousGuesses = new ArrayList<>();
     }
 
-    public String getTargetWord(){
-        return targetWord;
+    public String getAnswer(){
+        return answer;
     }
 
 
-    public int getRemainingAttempts() {
-        return remainingAttempts;
+    public int getSteps() {
+        return steps;
     }
 
 
     public boolean isWordGuessed() {
-        return previousGuesses.contains(targetWord);
+        return previousGuesses.contains(answer);
     }
 
 
     public boolean areAttemptsExhausted() {
-        return remainingAttempts <= 0;
+        return steps <= 0;
     }
 
 
@@ -62,7 +62,7 @@ public class WordleGame {
             throw new WordNotFoundInDictionaryException("Слово не найдено в словаре!");
         }
 
-        remainingAttempts--;
+        steps--;
 
         previousGuesses.add(guess);
 
@@ -75,11 +75,11 @@ public class WordleGame {
 
         for (int i = 0; i < guess.length(); i++) {
             char guessChar = guess.charAt(i);
-            char targetChar = targetWord.charAt(i);
+            char targetChar = answer.charAt(i);
 
             if (guessChar == targetChar) {
                 hint.append('+');
-            } else if (targetWord.contains(String.valueOf(guessChar))) {
+            } else if (answer.contains(String.valueOf(guessChar))) {
                 hint.append('^');
             } else {
                 hint.append('-');

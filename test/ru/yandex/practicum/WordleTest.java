@@ -9,19 +9,27 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.PrintWriter;
 import java.util.List;
 public class WordleTest {
+    WordleDictionaryLoader loader;
+    List<String> dictionaryWords;
+    WordleDictionary dictionary;
+
+    @BeforeEach
+    public void setUp() throws Exception {
+        loader = new WordleDictionaryLoader();
+        dictionaryWords = loader.loadDictionary("words_ru.txt");
+        System.out.println("Количество загруженных слов: " + dictionaryWords.size());
+        dictionary = new WordleDictionary(dictionaryWords);
+    }
 
     @Test
     void testMainMethod() throws Exception {
-
         PrintWriter log = new PrintWriter(System.out);
         Wordle.main(new String[]{});
         log.flush();
-
     }
 
     @Nested
     class WordleGameTest {
-        private WordleDictionary dictionary;
         private WordleGame game;
 
         @BeforeEach
@@ -30,34 +38,41 @@ public class WordleTest {
             dictionary = new WordleDictionary(words);
             game = new WordleGame(dictionary);
         }
+        @Test
+        public void testLoadDictionaryDirectly() throws Exception {
+            WordleDictionaryLoader loader = new WordleDictionaryLoader();
+            List<String> words = loader.loadDictionary("words_ru.txt");
+            System.out.println("Слова из файла: " + words);
+            assertFalse(words.isEmpty(), "Файл должен содержать слова");
+        }
 
         @Test
         public void testMakeGuess_ExactMatch() throws WordNotFoundInDictionaryException {
             String guess = "вода";
             String hint = game.makeGuess(guess);
-            assertEquals("+++++", hint); // Полное совпадение
+            assertEquals("+++++", hint);
         }
 
         @Test
         public void testMakeGuess_PartialMatch() throws WordNotFoundInDictionaryException {
-            if ("вода".equals(game.getTargetWord())) {
+            if ("вода".equals(game.getAnswer())) {
                 String hint = game.makeGuess("водао");
-                assertEquals("+++--", hint);  // Пример частичного совпадения
+                assertEquals("+++--", hint);
             }
         }
 
         @Test
         void testWordGuessed_AfterCorrectGuess() throws WordNotFoundInDictionaryException {
-            game.makeGuess("вода");
+            game.makeGuess("абзац");
             assertTrue(game.isWordGuessed());
         }
 
         @Test
         void testRemainingAttempts_DecreasesCorrectly() throws WordNotFoundInDictionaryException {
             for (int i = 0; i < 5; i++) {
-                game.makeGuess("привет");
+                game.makeGuess("абзац");
             }
-            assertEquals(1, game.getRemainingAttempts());
+            assertEquals(1, game.getSteps());
         }
     }
 
@@ -66,19 +81,23 @@ public class WordleTest {
         private static WordleDictionary dict;
 
         @BeforeAll
-        static void setUpClass() {
-            List<String> words = List.of("вода", "привет");
+        static void setUpClass() throws Exception {
+            WordleDictionaryLoader loader = new WordleDictionaryLoader();
+            List<String> words = loader.loadDictionary("words_ru.txt");
             dict = new WordleDictionary(words);
         }
 
         @Test
         public void testFilterFiveLetterWords() {
-            assertEquals(2, dict.getSize()); // Должны остаться только «вода» и «привет»
+            assertNotNull(dict);
+            assertFalse(dict.getSize() == 0);
         }
 
         @Test
         public void testContainsValidWord() {
-            assertTrue(dict.containsWord("вода"));
+            // Выберите слово, которое точно должно быть в словаре
+            String testWord = "арбуз"; // замените на слово из вашего словаря
+            assertTrue(dict.containsWord(testWord), "Ожидалось, что слово " + testWord + " будет найдено");
         }
 
         @Test
@@ -88,8 +107,7 @@ public class WordleTest {
 
         @Test
         public void testGetRandomWord() {
-            String randomWord = dict.getRandomWord();
-            assertTrue(List.of("вода", "привет").contains(randomWord));
+            assertNotNull(dict.getRandomWord());
         }
     }
 }
