@@ -16,7 +16,7 @@ public class WordleDictionaryLoader {
                         new FileInputStream(dictionaryFilePath),
                         StandardCharsets.UTF_8))) {
             String line;
-            while((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
                 line = line.toLowerCase().replace('ё', 'е');
                 words.add(line);
             }
