@@ -31,7 +31,7 @@ public class WordleGame {
         this.previousGuesses = new ArrayList<>();
     }
 
-    public String getAnswer(){
+    public String getAnswer() {
         return answer;
     }
 
