@@ -2,7 +2,7 @@ package ru.yandex.practicum;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+
 
 /*
 в этом классе хранится словарь и состояние игры

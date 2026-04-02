@@ -1,11 +1,8 @@
 package ru.yandex.practicum;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
+
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 /*
@@ -17,7 +14,7 @@ import java.util.Scanner;
     вызвать игровой метод в котором в цикле опрашивать пользователя и передавать информацию в игру
     вывести состояние игры и конечный результат
  */
-public class Wordle{
+public class Wordle {
 public static void main(String[] args) throws Exception {
 
         PrintWriter log = new PrintWriter("log.txt");
