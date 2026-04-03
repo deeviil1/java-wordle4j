@@ -37,9 +37,10 @@ public class WordleTest {
 
         @Test
         void testWordGuessed_AfterCorrectGuess() throws WordNotFoundInDictionaryException {
-            System.out.println("Загаданное слово: " + game.getAnswer()); // Что именно загадано?
-            game.makeGuess("арбуз");
-            System.out.println("Угадали? " + game.isWordGuessed()); // Смотрим значение флага
+            String answer = game.getAnswer();
+            System.out.println("Загаданное слово: " + answer);
+            game.makeGuess(answer);
+            System.out.println("Угадали? " + game.isWordGuessed());
             assertTrue(game.isWordGuessed());
         }
 
