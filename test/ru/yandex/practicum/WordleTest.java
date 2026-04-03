@@ -22,7 +22,7 @@ public class WordleTest {
 
         @Test
         public void testMakeGuess_ExactMatch() throws WordNotFoundInDictionaryException {
-            String guess = "абрек";
+            String guess = game.getAnswer();
             String hint = game.makeGuess(guess);
             assertEquals("+++++", hint);
         }
